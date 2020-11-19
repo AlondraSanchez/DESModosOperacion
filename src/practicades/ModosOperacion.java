@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package practicades;
 
 import java.security.NoSuchAlgorithmException;
@@ -10,15 +5,11 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author user1
- */
-public class ModosOperacion { //Cn = Ek(Pn)
+public class ModosOperacion {
 
     private final byte[] imagenBytes;
-    private byte[] cabecera;
-    private ArrayList<byte[]> split;
+    private final byte[] cabecera;
+    private final ArrayList<byte[]> split;
 
     public ModosOperacion(byte[] imagen) {
         this.imagenBytes = imagen;
@@ -27,17 +18,22 @@ public class ModosOperacion { //Cn = Ek(Pn)
         dividirBytes();
     }
 
+    /*
+        La cabecera del archivo contiene la información donde se especifican datos como
+        el tipo de archivo y sus dimensiones. Para poder visualizar la imagen cifrada
+        la cabecera debe permanecer íntegra.
+    
+        El resto de información (que no son la cabecera) se dividen en bloques de
+        información de 8 bytes cada uno (64 bits).
+    */
     private void dividirBytes() {
-        for (int i = 0; i < 54; i++) {
-            cabecera[i] = imagenBytes[i];
-        }
+        System.arraycopy(imagenBytes, 0, cabecera, 0, 54); //Obtenemos la cabecera del archivo
         byte[] bloque;
         for (int i = 54; i < imagenBytes.length; i += 8) {
             bloque = new byte[8];
             for (int j = 0; j < 8; j++) {
                 if ((i + j) < imagenBytes.length) {
                     bloque[j] = imagenBytes[i + j];
-                    // System.out.println(imagenBytes[i + j]);
                 } else {
                     bloque[j] = 0;
                 }

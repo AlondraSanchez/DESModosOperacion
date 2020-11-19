@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package practicades;
 
 import java.io.FileInputStream;
@@ -13,10 +8,6 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author user1
- */
 public class Imagen {
 
     private final String ruta;
@@ -24,8 +15,9 @@ public class Imagen {
     public Imagen(String ruta) {
         this.ruta = ruta;
     }
-    
-    public void guardar(byte[] info, String ext){
+
+    //Recibe un arreglo de bytes y una extension para distinguir el archivo. Genera una nueva imagen
+    public void guardar(byte[] info, String ext) {
         try {
             FileOutputStream imagen = new FileOutputStream(ruta.replaceAll(".bmp", ext));
             imagen.write(info);
@@ -33,17 +25,18 @@ public class Imagen {
             Logger.getLogger(Imagen.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public byte[] abrir(){
+
+    //Lee los bytes de un archivo y los retorna en un arreglo.
+    public byte[] abrir() {
         FileInputStream imagen = null;
         byte[] img = null;
         ArrayList<Byte> bytes = new ArrayList<>();
         try {
             imagen = new FileInputStream(ruta);
-            int valor=imagen.read();
-            while(valor!=-1){
-                bytes.add((byte)valor);
-                valor=imagen.read();
+            int valor = imagen.read();
+            while (valor != -1) {
+                bytes.add((byte) valor);
+                valor = imagen.read();
             }
             img = new byte[bytes.size()];
             for (int i = 0; i < bytes.size(); i++) {
